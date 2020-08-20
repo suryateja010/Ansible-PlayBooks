@@ -1,0 +1,27 @@
+---
+
+   - name: Ansible Test
+     hosts: localhost
+     task:
+     - name: Launching AWS ec2-instance using Ansible
+       ec2:
+         key_name: SAMPLE-KEY-PAIR
+         instance_type: t2.micro
+         image: ami-0915e09cc7ceee3ab
+         region: us-east-1
+         wait: yes
+         group: TEST-SG
+         count: 1
+         vpc_subnet_id: subnet-022ff71b2ebee144c
+         assign_public_ip: yes
+         instance_tags:
+           Name: Test-Servers
+
+
+Steps:
+
+1.Configure and launch a Server(linux/ubuntu) in AWS Account.
+2.Login to the server and install the ansible with all the required packages(python,pip,boto,ansible,openssl)
+3.Create an IAM role with ec2 full access to launch the instance on behalf of AWS.
+4.And attach the role to the existing server where ansible is installed.
+5.Create the above play-book and run the play-book.

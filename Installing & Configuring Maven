@@ -1,0 +1,24 @@
+---
+ - hosts: webserver
+   tasks:
+   - name: Downloading Maven for Development environment
+     get_url:
+       url: http://apachemirror.wuchna.com/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+       dest: /tmp/
+   - name: Unarchive the file
+     unarchive:
+       src: /tmp/apache-maven-3.6.3-bin.tar.gz
+       dest: /tmp/
+       remote_src: yes
+   - name: Removing the tar files
+     file:
+       path: /tmp/apache-maven-3.6.3-bin.tar.gz
+       state: absent
+   - name: Setting-up the Environment Variable for Maven in .bashrc file
+     lineinfile:
+       dest=/home/ec2-user/.bashrc
+       line='export PATH=$PATH:/tmp/apache*/bin'
+       insertafter='EOF'
+       state=present
+   - name: Source the bashrc file
+     shell: . /home/ec2-user/.bashrc && source /home/ec2-user/.bashrc
